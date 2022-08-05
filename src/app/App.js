@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-// import "./App.css";
+import "../styles.css";
 import { useDispatch, useSelector } from "react-redux";
 
 function App() {
@@ -15,11 +15,10 @@ function App() {
   // };
 
   return (
-      <main>
-        <h1>To do...</h1>
-      </main>
-    );
+    <main>
+      <h1 className="text-3xl font-bold underline">To do...</h1>
+    </main>
+  );
 }
 
 export default App;
-
