@@ -1,0 +1,4 @@
+npx create-react-app NumbersPuzzle
+npm install redux
+npm install react-redux
+npm install @reduxjs/toolkit
