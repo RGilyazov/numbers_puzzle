@@ -2,3 +2,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.cell {
+}
+.cell--outer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cell--full {
+  border: 2px solid;
+}
