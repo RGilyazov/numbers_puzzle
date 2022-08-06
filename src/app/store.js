@@ -1,10 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
-//import allRecipesReducer from "../features/allRecipes/allRecipesSlice";
+import PuzzleGameReducer from "../features/puzzleGame/puzzleGameSlice";
+import { asyncDispatchMiddleware } from "./asyncDispatchMiddleware";
 
 export default configureStore({
   reducer: {
-  //  allRecipes: allRecipesReducer,
-  //  favoriteRecipes: favoriteRecipesReducer,
-  //  search: searchReducer,
+    puzzleGame: PuzzleGameReducer,
+    //  favoriteRecipes: favoriteRecipesReducer,
+    //  search: searchReducer,
   },
+  //middleware: [asyncDispatchMiddleware, ...getDefaultMiddleware()],
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(asyncDispatchMiddleware),
 });
