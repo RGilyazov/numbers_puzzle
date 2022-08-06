@@ -2,6 +2,7 @@
   "name": "numbers_puzzle",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://bbOracul.github.io/",
   "dependencies": {
     "-": "^0.0.1",
     "@reduxjs/toolkit": "^1.8.3",
@@ -21,7 +22,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
