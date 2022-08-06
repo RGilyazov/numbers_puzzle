@@ -1,10 +1,26 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const NUM_COLS = 9;
+const COLORS = [
+  "rgba(255, 225, 225, 1)",
+  "rgba(225, 255, 225, 1)",
+  "rgba(225, 225, 255, 1)",
+  "rgba(255, 255, 160, 1)",
+  "rgba(255, 210, 80, 1)",
+  "rgba(240, 240, 120, 1)",
+  "rgba(200, 200, 230, 1)",
+  "rgba(200, 230, 200, 1)",
+  "rgba(230, 200,200, 1)",
+];
+
 let lastRowId = 0;
 function createRow(cells = []) {
   lastRowId += 1;
   console.log(lastRowId);
   return { myrowID: lastRowId, id: lastRowId, cells: cells };
+}
+function getNewCell(value) {
+  return { value: value, color: COLORS[value - 1] };
 }
 
 function getInitialRows() {
@@ -12,15 +28,11 @@ function getInitialRows() {
     1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 1, 1, 2, 1, 3, 1, 4, 1, 5, 1, 6, 1, 7, 1, 8,
     1, 9,
   ];
-  const numCols = 9;
   const rows = [];
   let cells = [];
   for (let ind = 0; ind < inintialNums.length; ind++) {
-    cells.push({
-      value: inintialNums[ind],
-      color: "#42c2f5",
-    });
-    if (cells.length == numCols || ind == inintialNums.length - 1) {
+    cells.push(getNewCell(inintialNums[ind]));
+    if (cells.length == NUM_COLS || ind == inintialNums.length - 1) {
       rows.push(createRow(cells));
       cells = [];
     }
@@ -40,7 +52,7 @@ const inintialRows = getInitialRows();
 const initialState = {
   rows: inintialRows,
   displayStart: 0,
-  displayCount: 20,
+  displayCount: 2000,
   activeCell: emptyActiveCell(),
   lastCell: getLastCell(inintialRows),
 };
@@ -101,6 +113,15 @@ function getCell(rows, cell) {
     rowId: cell.rowId,
   };
 }
+function addCell(rows, value) {
+  let cells = rows[rows.length - 1].cells;
+  if (cells.length == NUM_COLS) {
+    const row = createRow();
+    rows.push(row);
+    cells = row.cells;
+  }
+  cells.push(getNewCell(value));
+}
 
 export const puzzleGameSlice = createSlice({
   name: "puzzleGame",
@@ -108,6 +129,18 @@ export const puzzleGameSlice = createSlice({
   reducers: {
     addRow(state, action) {
       state.rows.push(getInitialRows()[0]);
+    },
+    rewrite(state, action) {
+      const rows = state.rows;
+      const newValues = [];
+      for (let rowInd = 0; rowInd < rows.length; rowInd++) {
+        let cells = rows[rowInd].cells;
+        for (let cellInd = 0; cellInd < cells.length; cellInd++) {
+          if (cells[cellInd].value) newValues.push(cells[cellInd].value);
+        }
+      }
+      newValues.forEach((value) => addCell(rows, value));
+      state.lastCell = getLastCell(rows);
     },
     activateCell(state, action) {
       if (action.payload.value) state.activeCell = action.payload;
@@ -129,6 +162,7 @@ export const puzzleGameSlice = createSlice({
     },
   },
 });
-export const { addRow, activateCell, clickCell } = puzzleGameSlice.actions;
+export const { addRow, activateCell, clickCell, rewrite } =
+  puzzleGameSlice.actions;
 
 export default puzzleGameSlice.reducer;
