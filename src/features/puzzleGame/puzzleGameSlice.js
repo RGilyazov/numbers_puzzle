@@ -61,12 +61,14 @@ const initialState = {
 function calculateTopRow(rows, displayStart) {
   const row = createRow();
   for (let i = 0; i < NUM_COLS; i++) {
-    for (let j = displayStart - 1; j >= -1; j++) {
+    for (let j = displayStart - 1; j >= -1; j--) {
       if (j === -1) {
         row.cells.push(getNewCell(0));
         break;
       } else if (rows[j].cells[i].value) {
-        row.cells.push(getNewCell(rows[j].cells[i].value));
+        let cell = getNewCell(rows[j].cells[i].value);
+        cell.rowId = rows[j].id;
+        row.cells.push(cell);
         break;
       }
     }
@@ -93,10 +95,13 @@ function GetRowIndexById(rows, id) {
 function canRemoveCells(rows, cell1, cell2) {
   if ((cell1.value !== cell2.value) & (cell1.value + cell2.value !== 10))
     return false;
+  const rowIndex1 = GetRowIndexById(rows, cell1.rowId);
+  const rowIndex2 = GetRowIndexById(rows, cell2.rowId);
+
   if ((cell1.index === cell2.index) & (cell1.rowId === cell2.rowId))
     return false;
   if (cell1.rowId === cell2.rowId) {
-    const rowIndex = GetRowIndexById(rows, cell1.rowId);
+    const rowIndex = rowIndex1;
     const minIndex = Math.min(cell1.index, cell2.index);
     const maxIndex = Math.max(cell1.index, cell2.index);
     for (let i = minIndex + 1; i < maxIndex; i++) {
@@ -106,8 +111,6 @@ function canRemoveCells(rows, cell1, cell2) {
   }
   if (cell1.index === cell2.index) {
     const index = cell1.index;
-    const rowIndex1 = GetRowIndexById(rows, cell1.rowId);
-    const rowIndex2 = GetRowIndexById(rows, cell2.rowId);
     const minRowIndex = Math.min(rowIndex1, rowIndex2);
     const maxRowIndex = Math.max(rowIndex1, rowIndex2);
     for (let i = minRowIndex + 1; i < maxRowIndex; i++) {
@@ -115,7 +118,23 @@ function canRemoveCells(rows, cell1, cell2) {
     }
     return true;
   }
-  return false;
+
+  const [startCell, endCell] =
+    rowIndex1 < rowIndex2 ? [cell1, cell2] : [cell2, cell1];
+  const [startRow, endrow] =
+    rowIndex1 < rowIndex2 ? [rowIndex1, rowIndex2] : [rowIndex2, rowIndex1];
+  let i = startRow;
+  let j = startCell.index + 1;
+  while (i < endrow || j < endCell.index) {
+    if (j >= NUM_COLS) {
+      j = 0;
+      i += 1;
+      continue;
+    }
+    if (rows[i].cells[j].value !== 0) return false;
+    j += 1;
+  }
+  return true;
 }
 function removeCell(rows, cell) {
   const rowInd = GetRowIndexById(rows, cell.rowId);
@@ -168,6 +187,7 @@ export const puzzleGameSlice = createSlice({
       removeCell(state.rows, action.payload[0]);
       removeCell(state.rows, action.payload[1]);
       state.activeCell = emptyActiveCell();
+      state.topRow = calculateTopRow(state.rows, state.displayStart);
     },
     changeScroll(state, action) {
       const { scrollTop, scrolltHeight } = action.payload;

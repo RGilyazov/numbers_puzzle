@@ -7,11 +7,11 @@ export default function Row(props){
   const activeCell = useSelector(selectActiveCell);
   const lastCell = useSelector(selectLastCell);
   const cells = props.cells.map((cell, index) => {
-    const cellData = {...cell}
+    let cellData = {...cell}
     cellData.index = index
-    cellData.rowId = props.id
-    cellData.active = activeCell.index == index & activeCell.rowId == props.id
-    cellData.last = lastCell.index == index & lastCell.rowId == props.id
+    if (cellData?.rowId === undefined) cellData.rowId = props.id 
+    cellData.active = activeCell.index == index & activeCell.rowId == cellData.rowId
+    cellData.last = lastCell.index == index & lastCell.rowId == cellData.rowId
     return <Cell key={index} cell = {cellData}/>
   });
   return <div className="flex"> {cells} </div>
