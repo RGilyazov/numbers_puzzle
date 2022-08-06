@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { act } from "react-dom/test-utils";
 
 const NUM_COLS = 9;
 const COLORS = [
@@ -16,9 +17,9 @@ const COLORS = [
 let lastRowId = 0;
 function createRow(cells = []) {
   lastRowId += 1;
-  console.log(lastRowId);
   return { myrowID: lastRowId, id: lastRowId, cells: cells };
 }
+
 function getNewCell(value) {
   return { value: value, color: COLORS[value - 1] };
 }
@@ -32,7 +33,7 @@ function getInitialRows() {
   let cells = [];
   for (let ind = 0; ind < inintialNums.length; ind++) {
     cells.push(getNewCell(inintialNums[ind]));
-    if (cells.length == NUM_COLS || ind == inintialNums.length - 1) {
+    if (cells.length === NUM_COLS || ind === inintialNums.length - 1) {
       rows.push(createRow(cells));
       cells = [];
     }
@@ -52,10 +53,26 @@ const inintialRows = getInitialRows();
 const initialState = {
   rows: inintialRows,
   displayStart: 0,
-  displayCount: 2000,
   activeCell: emptyActiveCell(),
   lastCell: getLastCell(inintialRows),
+  topRow: calculateTopRow(inintialRows, 0),
 };
+
+function calculateTopRow(rows, displayStart) {
+  const row = createRow();
+  for (let i = 0; i < NUM_COLS; i++) {
+    for (let j = displayStart - 1; j >= -1; j++) {
+      if (j === -1) {
+        row.cells.push(getNewCell(0));
+        break;
+      } else if (rows[j].cells[i].value) {
+        row.cells.push(getNewCell(rows[j].cells[i].value));
+        break;
+      }
+    }
+  }
+  return row;
+}
 
 export const selectPuzzleGame = (state) => state.puzzleGame;
 
@@ -70,30 +87,31 @@ export const selectLastCell = (state) => {
 
 function GetRowIndexById(rows, id) {
   for (let i = 0; i < rows.length; i++) {
-    if (rows[i].id == id) return i;
+    if (rows[i].id === id) return i;
   }
 }
 function canRemoveCells(rows, cell1, cell2) {
-  if ((cell1.value != cell2.value) & (cell1.value + cell2.value != 10))
+  if ((cell1.value !== cell2.value) & (cell1.value + cell2.value !== 10))
     return false;
-  if ((cell1.index == cell2.index) & (cell1.rowId == cell2.rowId)) return false;
-  if (cell1.rowId == cell2.rowId) {
+  if ((cell1.index === cell2.index) & (cell1.rowId === cell2.rowId))
+    return false;
+  if (cell1.rowId === cell2.rowId) {
     const rowIndex = GetRowIndexById(rows, cell1.rowId);
     const minIndex = Math.min(cell1.index, cell2.index);
     const maxIndex = Math.max(cell1.index, cell2.index);
     for (let i = minIndex + 1; i < maxIndex; i++) {
-      if (rows[rowIndex].cells[i].value != 0) return false;
+      if (rows[rowIndex].cells[i].value !== 0) return false;
     }
     return true;
   }
-  if (cell1.index == cell2.index) {
+  if (cell1.index === cell2.index) {
     const index = cell1.index;
     const rowIndex1 = GetRowIndexById(rows, cell1.rowId);
     const rowIndex2 = GetRowIndexById(rows, cell2.rowId);
     const minRowIndex = Math.min(rowIndex1, rowIndex2);
     const maxRowIndex = Math.max(rowIndex1, rowIndex2);
     for (let i = minRowIndex + 1; i < maxRowIndex; i++) {
-      if (rows[i].cells[index].value != 0) return false;
+      if (rows[i].cells[index].value !== 0) return false;
     }
     return true;
   }
@@ -106,7 +124,7 @@ function removeCell(rows, cell) {
 
 function getCell(rows, cell) {
   const rowInd = GetRowIndexById(rows, cell.rowId);
-  if (rowInd == undefined) return cell;
+  if (rowInd === undefined) return cell;
   return {
     ...rows[rowInd].cells[cell.index],
     index: cell.index,
@@ -115,7 +133,7 @@ function getCell(rows, cell) {
 }
 function addCell(rows, value) {
   let cells = rows[rows.length - 1].cells;
-  if (cells.length == NUM_COLS) {
+  if (cells.length === NUM_COLS) {
     const row = createRow();
     rows.push(row);
     cells = row.cells;
@@ -151,6 +169,16 @@ export const puzzleGameSlice = createSlice({
       removeCell(state.rows, action.payload[1]);
       state.activeCell = emptyActiveCell();
     },
+    changeScroll(state, action) {
+      const { scrollTop, scrolltHeight } = action.payload;
+      const displayStart = Math.round(
+        (scrollTop / scrolltHeight) * state.rows.length - 0.49
+      );
+      if (displayStart !== state.displayStart) {
+        state.displayStart = displayStart;
+        state.topRow = calculateTopRow(state.rows, displayStart);
+      }
+    },
     clickCell(state, action) {
       const cell = getCell(state.rows, action.payload);
       const activeCell = getCell(state.rows, { ...state.activeCell });
@@ -162,7 +190,7 @@ export const puzzleGameSlice = createSlice({
     },
   },
 });
-export const { addRow, activateCell, clickCell, rewrite } =
+export const { addRow, activateCell, clickCell, rewrite, changeScroll } =
   puzzleGameSlice.actions;
 
 export default puzzleGameSlice.reducer;
