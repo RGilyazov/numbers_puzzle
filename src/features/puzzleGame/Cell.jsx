@@ -1,8 +1,8 @@
 import React from "react";
 import { useEffect, useRef } from 'react'
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-import { activateCell, selectActiveCell, clickCell } from './puzzleGameSlice.js';
+import { clickCell } from './puzzleGameSlice.js';
 
 export default function Cell(props) {
   const { value, color, active, last } = props.cell;
@@ -11,17 +11,16 @@ export default function Cell(props) {
 
   const ref = useRef();
 
-  function handleClick(event) {
-    dispatch(clickCell(props.cell));
-  }
-
   useEffect(() => {
+    function handleClick(event) {
+      dispatch(clickCell(props.cell));
+    }   
     const element = ref.current;
     element.addEventListener('click', handleClick);
     return () => {
       element.removeEventListener('click', handleClick);
     };
-  }, [ref.current,props.cell]);
+  }, [props.cell,dispatch]);
 
   return (
     <div className="flex justify-center items-center w-10 h-10">
@@ -35,5 +34,3 @@ export default function Cell(props) {
     </div>
   );
 }
-
-//<div style="display:flex;justify-content:center;align-items:center;">Text Content</div

@@ -1,7 +1,7 @@
 import React from "react";
 import Row from "./Row";
 import {useEffect,useRef} from 'react'
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { changeScroll } from './puzzleGameSlice.js';
 

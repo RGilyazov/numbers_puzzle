@@ -10,8 +10,8 @@ export default function Row(props){
     let cellData = {...cell}
     cellData.index = index
     if (cellData?.rowId === undefined) cellData.rowId = props.id 
-    cellData.active = activeCell.index == index & activeCell.rowId == cellData.rowId
-    cellData.last = lastCell.index == index & lastCell.rowId == cellData.rowId
+    cellData.active = activeCell.index === index & activeCell.rowId === cellData.rowId
+    cellData.last = lastCell.index === index & lastCell.rowId === cellData.rowId
     return <Cell key={index} cell = {cellData}/>
   });
   return <div className="flex"> {cells} </div>

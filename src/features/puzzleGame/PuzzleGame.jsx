@@ -2,7 +2,6 @@ import React from "react";
 import Glass from "./Glass";
 import Row from "./Row";
 import { useDispatch, useSelector } from "react-redux";
-import {useEffect,useRef,useCallback} from 'react'
 import { rewrite } from './puzzleGameSlice.js';
 
 export default function PuzzleGame(props){
