@@ -164,9 +164,6 @@ export const puzzleGameSlice = createSlice({
   name: "puzzleGame",
   initialState: initialState,
   reducers: {
-    addRow(state, action) {
-      state.rows.push(getInitialRows()[0]);
-    },
     rewrite(state, action) {
       const rows = state.rows;
       const newValues = [];
@@ -210,7 +207,7 @@ export const puzzleGameSlice = createSlice({
     },
   },
 });
-export const { addRow, activateCell, clickCell, rewrite, changeScroll } =
+export const { activateCell, clickCell, rewrite, changeScroll } =
   puzzleGameSlice.actions;
 
 export default puzzleGameSlice.reducer;

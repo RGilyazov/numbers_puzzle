@@ -2,7 +2,7 @@
   "name": "numbers_puzzle",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://bbOracul.github.io/",
+  "homepage": "http://bbOracul.github.io/numbers_puzzle",
   "dependencies": {
     "-": "^0.0.1",
     "@reduxjs/toolkit": "^1.8.3",
