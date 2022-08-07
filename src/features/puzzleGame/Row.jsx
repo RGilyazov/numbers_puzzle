@@ -14,5 +14,5 @@ export default function Row(props){
     cellData.last = lastCell.index === index & lastCell.rowId === cellData.rowId
     return <Cell key={index} cell = {cellData}/>
   });
-  return <div className="flex"> {cells} </div>
+  return <div className="flex border-l-2 border-r-2"> {cells} </div>
 }

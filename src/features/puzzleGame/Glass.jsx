@@ -28,6 +28,6 @@ export default function Glass(props){
   const rowsComps = rows.map((row, index) => (
     <Row key = {row.id} id = {row.id} cells = {row.cells} />
   ));
-  return <div ref={ref} className="overflow-y-scroll max-h-[90vh] flex w-fit"><div className="flex-col border-2 border-black"> {rowsComps} </div></div>
+  return <div ref={ref} className="overflow-y-scroll h-[90vh] max-h-[90vh] flex w-fit"><div className="flex-col border-black"> {rowsComps} </div></div>
  
 }

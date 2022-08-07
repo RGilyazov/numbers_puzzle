@@ -7,7 +7,7 @@ import 'animate.css';
 import { clickCell } from './puzzleGameSlice.js';
 
 export default function Cell(props) {
-  const { value, color, active, last } = props.cell;
+  const { value, color, active, last, deleted } = props.cell;
 
 
   const dispatch = useDispatch();
@@ -26,12 +26,11 @@ export default function Cell(props) {
   }, [props.cell,dispatch]);
 
   return (
-    <div className={`flex justify-center items-center w-10 h-10 ${active ?'animate-shake-cell':''} ${!value ?'animate-dissapear-cell':''}`}>
-       <div ref={ref}
-        className={`box-border rounded-lg text-center flex justify-center items-center text-2xl ${active ? "border-2 border-red-400 w-10 h-10" :"border-2 border-black w-9 h-9"
+    <div className={`flex justify-center items-center w-10 h-10  ${deleted?'animate-fallDown-cell':''}`}>
+       <div ref={ref} 
+        className={`${active||deleted ?'animate-shake-cell':''} box-border rounded-lg text-center flex justify-center items-center text-2xl ${active ? "border-2 border-red-400 w-10 h-10" : value?"border-2 border-black w-9 h-9":'w-9 h-9'
           }`}
-        style={{ backgroundColor:color}}
-      >
+        style={{ backgroundColor:color}}>
         {value ? value : ''}{last ? '.' : ''}
       </div>
 

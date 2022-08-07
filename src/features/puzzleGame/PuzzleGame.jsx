@@ -18,7 +18,7 @@ export default function PuzzleGame(props){
         <button onClick={handleButtonClick} className = 
                     {'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'} type="button">rewrite
         </button>
-        <div className='bg-white border-2 border-black w-fit'> 
+        <div className='bg-white border-t-2 border-b-2 rounded w-fit'> 
             <Row id = {topRow.id} cells = {topRow.cells} />
         </div>
         <div>

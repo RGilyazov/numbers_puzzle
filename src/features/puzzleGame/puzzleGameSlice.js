@@ -21,7 +21,7 @@ function createRow(cells = []) {
 }
 
 function getNewCell(value) {
-  return { value: value, color: COLORS[value - 1] };
+  return { value: value, color: COLORS[value - 1], deleted: value === 0 };
 }
 
 function getInitialRows() {
@@ -66,7 +66,7 @@ function calculateTopRow(rows, displayStart) {
       if (j === -1) {
         row.cells.push(getNewCell(0));
         break;
-      } else if (rows[j].cells[i].value) {
+      } else if (!rows[j].cells[i].deleted) {
         let cell = getNewCell(rows[j].cells[i].value);
         cell.rowId = rows[j].id;
         row.cells.push(cell);
@@ -94,6 +94,7 @@ function GetRowIndexById(rows, id) {
   }
 }
 function canRemoveCells(rows, cell1, cell2) {
+  if (cell1.deleted || cell2.deleted) return false;
   if ((cell1.value !== cell2.value) & (cell1.value + cell2.value !== 10))
     return false;
   const rowIndex1 = GetRowIndexById(rows, cell1.rowId);
@@ -106,7 +107,7 @@ function canRemoveCells(rows, cell1, cell2) {
     const minIndex = Math.min(cell1.index, cell2.index);
     const maxIndex = Math.max(cell1.index, cell2.index);
     for (let i = minIndex + 1; i < maxIndex; i++) {
-      if (rows[rowIndex].cells[i].value !== 0) return false;
+      if (!rows[rowIndex].cells[i].deleted) return false;
     }
     return true;
   }
@@ -115,7 +116,7 @@ function canRemoveCells(rows, cell1, cell2) {
     const minRowIndex = Math.min(rowIndex1, rowIndex2);
     const maxRowIndex = Math.max(rowIndex1, rowIndex2);
     for (let i = minRowIndex + 1; i < maxRowIndex; i++) {
-      if (rows[i].cells[index].value !== 0) return false;
+      if (!rows[i].cells[index].deleted) return false;
     }
     return true;
   }
@@ -132,14 +133,14 @@ function canRemoveCells(rows, cell1, cell2) {
       i += 1;
       continue;
     }
-    if (rows[i].cells[j].value !== 0) return false;
+    if (!rows[i].cells[j].deleted) return false;
     j += 1;
   }
   return true;
 }
 function removeCell(rows, cell) {
   const rowInd = GetRowIndexById(rows, cell.rowId);
-  rows[rowInd].cells[cell.index].value = 0;
+  rows[rowInd].cells[cell.index].deleted = true;
 }
 
 function getCell(rows, cell) {
@@ -171,14 +172,14 @@ export const puzzleGameSlice = createSlice({
       for (let rowInd = 0; rowInd < rows.length; rowInd++) {
         let cells = rows[rowInd].cells;
         for (let cellInd = 0; cellInd < cells.length; cellInd++) {
-          if (cells[cellInd].value) newValues.push(cells[cellInd].value);
+          if (!cells[cellInd].deleted) newValues.push(cells[cellInd].value);
         }
       }
       newValues.forEach((value) => addCell(rows, value));
       state.lastCell = getLastCell(rows);
     },
     activateCell(state, action) {
-      if (action.payload.value) state.activeCell = action.payload;
+      if (!action.payload.deleted) state.activeCell = action.payload;
       else state.activeCell = emptyActiveCell();
     },
     removeCells(state, action) {

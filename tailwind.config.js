@@ -15,12 +15,19 @@ module.exports = {
         },
         dissapear: {
           "0%": { opacity: 1 },
+          "20%": { opacity: 0.5 },
+          "40%": { opacity: 0.2 },
           "100%": { opacity: 0 },
+        },
+        fallDown: {
+          "0%": { transform: "translateY(0%)" },
+          "100%": { transform: "translateY(300%)" },
         },
       },
       animation: {
         "shake-cell": "shake 2s linear infinite",
-        "dissapear-cell": "dissapear 1s ease-in forwards",
+        "dissapear-cell": "dissapear 1s linear forwards",
+        "fallDown-cell": "fallDown 1s linear,dissapear 1s linear forwards",
       },
     },
   },
