@@ -3,14 +3,18 @@
 @tailwind components;
 @tailwind utilities;
 
-.cell {
-}
-.cell--outer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+/* The animation code */
+@keyframes cell-active {
+  from {
+    transform: "rotate(0turn)";
+  }
+  to {
+    transform: "rotate(0.05turn)";
+  }
 }
 
-.cell--full {
-  border: 2px solid;
+/* The element to apply the animation to */
+.animate-cell-active {
+  animation-name: cell-active;
+  animation-duration: 4s;
 }

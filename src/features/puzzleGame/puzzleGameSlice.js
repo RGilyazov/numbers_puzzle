@@ -60,6 +60,7 @@ const initialState = {
 
 function calculateTopRow(rows, displayStart) {
   const row = createRow();
+  row.id = -100;
   for (let i = 0; i < NUM_COLS; i++) {
     for (let j = displayStart - 1; j >= -1; j--) {
       if (j === -1) {
