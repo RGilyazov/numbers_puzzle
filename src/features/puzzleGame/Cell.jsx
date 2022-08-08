@@ -2,8 +2,6 @@ import React from "react";
 import { useEffect, useRef } from 'react'
 import { useDispatch } from 'react-redux';
 
-import 'animate.css';
-
 import { clickCell } from './puzzleGameSlice.js';
 
 export default function Cell(props) {
