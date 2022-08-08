@@ -28,7 +28,7 @@ export default function Cell(props) {
   return (
     <div className={`flex justify-center items-center w-10 h-10  ${deleted?'animate-fallDown-cell':''}`}>
        <div ref={ref} 
-        className={`${active||deleted ?'animate-shake-cell':''} box-border rounded-lg text-center flex justify-center items-center text-2xl ${active ? "border-2 border-red-400 w-10 h-10" : value?"border-2 border-black w-9 h-9":'w-9 h-9'
+        className={`${active||deleted ?'animate-shake-cell':''} select-none box-border rounded-lg text-center flex justify-center items-center text-2xl ${active ? "border-2 border-red-400 w-10 h-10" : value?"border-2 border-black w-9 h-9":' border-black w-9 h-9'
           }`}
         style={{ backgroundColor:color}}>
         {value ? value : ''}{last ? '.' : ''}
