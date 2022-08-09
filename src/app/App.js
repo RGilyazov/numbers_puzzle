@@ -4,11 +4,7 @@ import "../styles.css";
 import PuzzleGame from "../features/puzzleGame/PuzzleGame";
 
 function App() {
-  return (
-    <main>
-      <PuzzleGame></PuzzleGame>
-    </main>
-  );
+  return <PuzzleGame />;
 }
 
 export default App;
