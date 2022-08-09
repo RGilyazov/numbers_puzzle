@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react'
 import { useDispatch } from 'react-redux';
 
 import { clickCell } from './puzzleGameSlice.js';
+import { isMobile } from 'react-device-detect';
 
 export default function Cell(props) {
   const { value, color, active, last, deleted } = props.cell;
@@ -23,12 +24,17 @@ export default function Cell(props) {
     };
   }, [props.cell,dispatch]);
 
+ const textSize = isMobile?'text-cell':'text-2xl'
+ const cellSize = isMobile?'w-[10vmin] h-[10vmin]':'w-10 h-10'
+
   return (
-    <div className={`flex justify-center items-center w-[10vmin] h-[10vmin]  ${deleted?'animate-fallDown-cell':''}`}>
+    <div className={`flex justify-center items-center ${cellSize} p-0.5 ${deleted?'animate-fallDown-cell':''}`}>
        <div ref={ref} 
-        className={`${active||deleted ?'animate-shake-cell':''} touch-none select-none box-border rounded-20p text-center flex justify-center items-center text-cell ${active ? "border-2 border-red-400 w-[10vmin] h-[10vmin]" : value?"border-2 border-black w-[9vmin] h-[9vmin]":' border-black w-[9vmin] h-[9vmin]'
-          }`}
-        style={{ backgroundColor:color}}>
+        className={`${active||deleted ?'animate-shake-cell':''} 
+                    ${active ? "border-2 border-red-400" : value?"border-2 border-black":''}
+                     touch-manipulation select-none box-border rounded-20p 
+                     flex justify-center items-center text-center ${textSize} h-full w-full`}
+        style={{backgroundColor:color}}>
         {value ? value : ''}{last ? '.' : ''}
       </div>
 

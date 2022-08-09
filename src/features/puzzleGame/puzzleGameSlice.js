@@ -194,7 +194,7 @@ export const puzzleGameSlice = createSlice({
     changeScroll(state, action) {
       const { scrollTop, scrolltHeight } = action.payload;
       const displayStart = Math.round(
-        (scrollTop / scrolltHeight) * state.rows.length - 0.49
+        (scrollTop / scrolltHeight) * state.rows.length - 0.25
       );
       if (displayStart !== state.displayStart) {
         state.displayStart = displayStart;

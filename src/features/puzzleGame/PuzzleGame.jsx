@@ -9,7 +9,7 @@ export default function PuzzleGame(props){
   const {rows,topRow} = state;
   
   return   (
-  <div className="">
+  <div className="flex justify-center">
         <Glass rows={rows} topRow={topRow} />
    </div>)
 }
