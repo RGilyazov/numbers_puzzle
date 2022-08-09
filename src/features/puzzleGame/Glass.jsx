@@ -30,17 +30,30 @@ export default function Glass(props){
   ));
 
   const textSize = isMobile?'text-4xl':'text-lg'
+  const buttonClassName = `hover:underline text-blue-900 font-bold py-2 px-4 rounded ${textSize}`
 
   return <div ref={glassRef} className="overflow-y-auto overflow-x-hidden flex flex-col w-fit h-screen max-h-screen">
               <div ref={captionRef} className="sticky top-0 bg-white z-50">
-                  <div>
-                    <button   onClick={()=>dispatch(rewrite())}  className = 
-                          {`hover:underline text-blue-900 box-border font-bold py-2 px-4 rounded ${textSize}`} type="button">rewrite
-                    </button>
-                    <button   onClick={()=>dispatch(newGame())}  className = 
-                          {`hover:underline text-blue-900 box-border font-bold py-2 px-4 rounded ${textSize}`} type="button">new game
-                    </button>
-                  </div>
+                  <ul className="flex flex-row">
+                    <li>
+                      <button   onClick={()=>dispatch(rewrite())}  className = 
+                            {buttonClassName} type="button">rewrite
+                      </button>
+                    </li>
+                    <li>
+                      <button   onClick={()=>dispatch(newGame())}  className = 
+                             {buttonClassName}  type="button">new game
+                      </button>
+                    </li>
+                    <li>
+                      <button    className = 
+                             {buttonClassName}  type="button">rules
+                      </button>
+                      <button    className = 
+                             {buttonClassName}  type="button">about
+                      </button>
+                    </li>
+                  </ul>
                   <div className='border-t-2 border-b-2 rounded w-fit mb-2'> 
                     <Row id = {topRow.id} cells = {topRow.cells} />
                   </div>
