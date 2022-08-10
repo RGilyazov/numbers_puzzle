@@ -83,6 +83,9 @@ export const selectActiveCell = (state) => {
   const puzzleGame = selectPuzzleGame(state);
   return puzzleGame.activeCell;
 };
+export const selectStateToSave = (state) => {
+  return selectPuzzleGame(state);
+};
 export const selectLastCell = (state) => {
   const puzzleGame = selectPuzzleGame(state);
   return puzzleGame.lastCell;
@@ -166,6 +169,15 @@ export const puzzleGameSlice = createSlice({
   name: "puzzleGame",
   initialState: initialState,
   reducers: {
+    saveGame(state, action) {
+      console.log(action.payload);
+      //see saveDataMiddleware
+    },
+    loadGame(state, action) {
+      Object.assign(state, action.payload);
+      console.log(action.payload);
+      //see saveDataMiddleware
+    },
     newGame(state, action) {
       for (let i in initialState) state[i] = initialState[i];
     },
@@ -212,7 +224,14 @@ export const puzzleGameSlice = createSlice({
     },
   },
 });
-export const { activateCell, clickCell, rewrite, changeScroll, newGame } =
-  puzzleGameSlice.actions;
+export const {
+  activateCell,
+  clickCell,
+  rewrite,
+  changeScroll,
+  newGame,
+  saveGame,
+  loadGame,
+} = puzzleGameSlice.actions;
 
 export default puzzleGameSlice.reducer;

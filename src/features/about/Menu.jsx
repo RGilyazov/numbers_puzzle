@@ -1,10 +1,17 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-import { rewrite, newGame } from "../puzzleGame/puzzleGameSlice.js";
+import {
+  rewrite,
+  newGame,
+  saveGame,
+  loadGame,
+  selectStateToSave,
+} from "../puzzleGame/puzzleGameSlice.js";
 import MenuButton from "./MenuButton.jsx";
 
 export default function Menu(props) {
+  const state = useSelector(selectStateToSave);
   const dispatch = useDispatch();
   const gameButtons = [
     <MenuButton
@@ -17,9 +24,19 @@ export default function Menu(props) {
       onClick={() => dispatch(newGame())}
       caption="new game"
     />,
+    <MenuButton
+      key="3"
+      onClick={() => dispatch(saveGame(state))}
+      caption="save game"
+    />,
+    <MenuButton
+      key="4"
+      onClick={() => dispatch(loadGame())}
+      caption="load game"
+    />,
   ];
   const backToGameLink = (
-    <MenuButton key="3" to="/numbers_puzzle" caption="back to the game" />
+    <MenuButton key="101" to="/numbers_puzzle" caption="back to the game" />
   );
   return (
     <ul className="flex-none flex flex-row items-center">
