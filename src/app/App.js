@@ -1,5 +1,6 @@
 import React from "react";
 import "../styles.css";
+import "react-toastify/dist/ReactToastify.css";
 import PuzzleGame from "../features/puzzleGame/PuzzleGame";
 import About from "../features/about/About";
 import Rules from "../features/about/Rules";

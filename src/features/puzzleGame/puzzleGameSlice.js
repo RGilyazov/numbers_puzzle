@@ -170,13 +170,11 @@ export const puzzleGameSlice = createSlice({
   initialState: initialState,
   reducers: {
     saveGame(state, action) {
-      console.log(action.payload);
-      //see saveDataMiddleware
+      action.success = true;
     },
     loadGame(state, action) {
       Object.assign(state, action.payload);
-      console.log(action.payload);
-      //see saveDataMiddleware
+      action.success = true;
     },
     newGame(state, action) {
       for (let i in initialState) state[i] = initialState[i];

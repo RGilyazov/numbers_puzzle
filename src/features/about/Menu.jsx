@@ -13,6 +13,7 @@ import MenuButton from "./MenuButton.jsx";
 export default function Menu(props) {
   const state = useSelector(selectStateToSave);
   const dispatch = useDispatch();
+
   const gameButtons = [
     <MenuButton
       key="1"
@@ -39,10 +40,12 @@ export default function Menu(props) {
     <MenuButton key="101" to="/numbers_puzzle" caption="back to the game" />
   );
   return (
-    <ul className="flex-none flex flex-row items-center">
-      {props.inGame ? gameButtons : backToGameLink}
-      <MenuButton to="/numbers_puzzle/rules" caption="rules" />
-      <MenuButton to="/numbers_puzzle/about" caption="about" />
-    </ul>
+    <div>
+     <ul className="flex-none flex flex-row items-center">
+        {props.inGame ? gameButtons : backToGameLink}
+        <MenuButton to="/numbers_puzzle/rules" caption="rules" />
+        <MenuButton to="/numbers_puzzle/about" caption="about" />
+      </ul>
+    </div>
   );
 }

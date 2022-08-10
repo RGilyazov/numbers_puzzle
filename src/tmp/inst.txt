@@ -5,6 +5,7 @@ npm install @reduxjs/toolkit
 npm install -D tailwindcss postcss autoprefixer
 npx tailwindcss init -p
 npm i -D react-router-dom
+npm install --save react-toastify
 
 перенаправление порта
 netsh interface portproxy add v4tov4 listenport=3001 listenaddress=0.0.0.0 connectport=3000 connectaddress=172.31.8.238
