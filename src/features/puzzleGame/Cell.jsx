@@ -34,7 +34,9 @@ export default function Cell(props) {
     >
       <div
         ref={ref}
-        className={`${active || deleted ? "animate-shake-cell" : ""} 
+        className={`${
+          active ? "animate-shake-cell" : deleted ? "animate-shake-cell-2s" : ""
+        } 
                     ${
                       active
                         ? "border-2 border-red-400"

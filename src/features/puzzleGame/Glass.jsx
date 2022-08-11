@@ -28,7 +28,7 @@ export default function Glass(props) {
   ));
 
   return (
-    <div className="flex flex-col flex-grow overflow-y overflow-x-hidden shadow-lg border-gray-300 border m-4">
+    <div className="flex flex-col flex-grow overflow-y overflow-x-hidden shadow-lg border-gray-300 border m-2">
       <div className="border-b-2 rounded w-fit mb-2">
         <Row id={topRow.id} cells={topRow.cells} />
       </div>

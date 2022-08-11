@@ -44,8 +44,8 @@ module.exports = {
       },
       animation: {
         "shake-cell": "shake 2s linear infinite",
-        "dissapear-cell": "dissapear 1s linear forwards",
         "fallDown-cell": "fallDown 1s linear,dissapear 1s linear forwards",
+        "shake-cell-2s": "shake 2s linear forwards",
       },
     },
   },
