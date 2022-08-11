@@ -4,7 +4,9 @@ export default function Layout(props) {
   return (
     <div className="flex  h-full justify-center">
       <ToastContainer hideProgressBar={true} autoClose={1000} />
-      <div className="flex-col h-full flex shrink">{props.children}</div>
+      <div className="flex-col flex shrink items-centers h-full">
+        {props.children}
+      </div>
     </div>
   );
 }
