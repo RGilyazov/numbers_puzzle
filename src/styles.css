@@ -6,3 +6,6 @@
 .items-centers {
   align-items: center;
 }
+.h-full {
+  width: 100%;
+}

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 export default function MenuButton(props) {
   const textSize = isMobile ? "text-4xl" : "text-lg";
-  const ClassName = `touch-manipulation hover:underline text-blue-900 font-bold py-2 px-4 ${textSize}`;
+  const ClassName = `touch-manipulation hover:underline text-blue-400 font-bold py-2 px-4 ${textSize}`;
   const link = (
     <Link className={ClassName} to={props.to}>
       {props.caption}

@@ -6,8 +6,10 @@ npm install -D tailwindcss postcss autoprefixer
 npx tailwindcss init -p
 npm i -D react-router-dom
 npm install --save react-toastify
+npm install @mui/material @emotion/react @emotion/styled
+
 
 перенаправление порта
-netsh interface portproxy add v4tov4 listenport=3001 listenaddress=0.0.0.0 connectport=3000 connectaddress=172.31.8.238
+netsh interface portproxy add v4tov4 listenport=3001 listenaddress=0.0.0.0 connectport=3000 connectaddress=172.21.230.198
 открыть порт 3001
 HOST=0.0.0.0 npm run start

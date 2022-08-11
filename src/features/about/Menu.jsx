@@ -1,5 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { isMobile } from "react-device-detect";
 
 import {
   rewrite,
@@ -41,7 +42,7 @@ export default function Menu(props) {
   );
   return (
     <div>
-     <ul className="flex-none flex flex-row items-center">
+      <ul className="flex-none flex flex-row items-center">
         {props.inGame ? gameButtons : backToGameLink}
         <MenuButton to="/numbers_puzzle/rules" caption="rules" />
         <MenuButton to="/numbers_puzzle/about" caption="about" />

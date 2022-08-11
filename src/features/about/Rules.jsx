@@ -4,13 +4,6 @@ import Layout from "./Layout";
 
 export default function Rules() {
   return (
-    <Layout
-      children={[
-        <div>
-          <Menu inGame={false} />
-          {"this is rules page"}
-        </div>,
-      ]}
-    ></Layout>
+    <Layout children={[<div key="1">{"this is rules page"}</div>]}></Layout>
   );
 }

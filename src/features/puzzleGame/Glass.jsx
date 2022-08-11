@@ -28,15 +28,13 @@ export default function Glass(props) {
   ));
 
   return (
-    <div className="flex flex-col h-full w-fit overflow-y-auto overflow-x-hidden">
-      <div className="header flex-grow-0 shrink">
-        <div className="border-t-2 border-b-2 rounded w-fit mb-2">
-          <Row id={topRow.id} cells={topRow.cells} />
-        </div>
+    <div className="flex flex-col flex-grow overflow-y overflow-x-hidden shadow-lg border-gray-300 border m-4">
+      <div className="border-b-2 rounded w-fit mb-2">
+        <Row id={topRow.id} cells={topRow.cells} />
       </div>
       <div
         ref={glassRef}
-        className="flex-grow shrink overflow-y-auto overflow-x-hidden flex flex-col"
+        className="flex-grow shrink overflow-y-scroll overflow-x-hidden flex flex-col w-fit"
       >
         {rowsComps}
       </div>

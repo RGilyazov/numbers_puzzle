@@ -21,11 +21,6 @@ export default function PuzzleGame() {
   });
   const { rows, topRow } = state;
   return (
-    <Layout
-      children={[
-        <Menu key="1" inGame={true} />,
-        <Glass key="2" rows={rows} topRow={topRow} />,
-      ]}
-    ></Layout>
+    <Layout children={[<Glass key="1" rows={rows} topRow={topRow} />]}></Layout>
   );
 }

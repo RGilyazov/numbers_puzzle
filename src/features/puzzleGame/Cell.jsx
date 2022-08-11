@@ -42,7 +42,7 @@ export default function Cell(props) {
                         ? "border-2 border-black"
                         : ""
                     }
-                     touch-manipulation select-none box-border rounded-20p 
+                     shadow-lg touch-manipulation select-none box-border rounded-20p 
                      flex justify-center items-center text-center ${textSize} h-full w-full`}
         style={{ backgroundColor: color }}
       >
