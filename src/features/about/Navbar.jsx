@@ -9,6 +9,7 @@ import {
   Menu,
   MenuItem,
   CssBaseline,
+  Divider,
   Box,
 } from "@mui/material";
 
@@ -82,7 +83,7 @@ function Navbar() {
                 handleMenuClick(findNextCellToDelete());
               }}
             >
-              help
+              Help me!
             </MenuItem>
             <MenuItem
               onClick={() => {
@@ -91,19 +92,21 @@ function Navbar() {
             >
               Rewrite
             </MenuItem>
+            <Divider />
+
             <MenuItem
               onClick={() => {
                 handleMenuClick(saveGame(state));
               }}
             >
-              Save
+              Save game
             </MenuItem>
             <MenuItem
               onClick={() => {
                 handleMenuClick(loadGame());
               }}
             >
-              Load
+              Load game
             </MenuItem>
             <MenuItem
               onClick={() => {
