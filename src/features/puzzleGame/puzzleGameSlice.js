@@ -53,9 +53,11 @@ const inintialRows = getInitialRows();
 const initialState = {
   rows: inintialRows,
   displayStart: 0,
+  displayEnd: 0,
   activeCell: emptyActiveCell(),
   lastCell: getLastCell(inintialRows),
   topRow: calculateTopRow(inintialRows, 0),
+  scroll: { top: 0, height: 0, clientHeigh: 0 },
 };
 
 function calculateTopRow(rows, displayStart) {
@@ -96,15 +98,19 @@ function GetRowIndexById(rows, id) {
     if (rows[i].id === id) return i;
   }
 }
+function canRemoveValues(value1, value2) {
+  return value1 === value2 || value1 + value2 === 10;
+}
+
 function canRemoveCells(rows, cell1, cell2) {
+  if (cell1.value === undefined || cell2.value === undefined) return false;
   if (cell1.deleted || cell2.deleted) return false;
-  if ((cell1.value !== cell2.value) & (cell1.value + cell2.value !== 10))
-    return false;
+  if (!canRemoveValues(cell1.value, cell2.value)) return false;
+
   const rowIndex1 = GetRowIndexById(rows, cell1.rowId);
   const rowIndex2 = GetRowIndexById(rows, cell2.rowId);
 
-  if ((cell1.index === cell2.index) & (cell1.rowId === cell2.rowId))
-    return false;
+  if (cell1.index === cell2.index && cell1.rowId === cell2.rowId) return false;
   if (cell1.rowId === cell2.rowId) {
     const rowIndex = rowIndex1;
     const minIndex = Math.min(cell1.index, cell2.index);
@@ -165,10 +171,82 @@ function addCell(rows, value) {
   cells.push(getNewCell(value));
 }
 
+function getNextCell(rows, i = undefined, j = undefined) {
+  if (i === undefined || j === undefined) return [0, 0];
+  if (j < rows[i].cells.length - 1) return [i, j + 1];
+  if (i < rows.length - 1) return [i + 1, 0];
+  return [undefined, undefined];
+}
+
+function canRemoveCell(rows, cell_row, cell_col) {
+  if (rows[cell_row].cells[cell_col].deleted) return false;
+  //check only forward and bottom directions
+  let [i, j] = getNextCell(rows, cell_row, cell_col);
+  while (i !== undefined && rows[i].cells[j].deleted)
+    [i, j] = getNextCell(rows, i, j);
+  if (
+    i !== undefined &&
+    canRemoveValues(
+      rows[cell_row].cells[cell_col].value,
+      rows[i].cells[j].value
+    )
+  )
+    return true;
+  [i, j] = [cell_row + 1, cell_col];
+  while (
+    i < rows.length &&
+    j < rows[i].cells.length &&
+    rows[i].cells[j].deleted
+  )
+    i += 1;
+  if (
+    i < rows.length &&
+    j < rows[i].cells.length &&
+    canRemoveValues(
+      rows[cell_row].cells[cell_col].value,
+      rows[i].cells[j].value
+    )
+  )
+    return true;
+  return false;
+}
+
+function getNextCellToDelete(rows, cell = undefined) {
+  if (cell === undefined) cell = emptyActiveCell();
+  let [i, j] = getNextCell(rows, GetRowIndexById(rows, cell.rowId), cell.index);
+
+  while (i !== undefined) {
+    if (canRemoveCell(rows, i, j))
+      return { ...rows[i].cells[j], index: j, rowId: rows[i].id };
+    [i, j] = getNextCell(rows, i, j);
+  }
+  return undefined;
+}
+
+function rowIsEmpty(row) {
+  return row.cells.filter((cell) => !cell.deleted).length === 0;
+}
+
+function removeEmptyRows(rows) {
+  return rows.filter((row) => !rowIsEmpty(row));
+}
+
 export const puzzleGameSlice = createSlice({
   name: "puzzleGame",
   initialState: initialState,
   reducers: {
+    cellActivated(state, action) {
+      state.activeCell.activated = false;
+    },
+    findNextCellToDelete(state, action) {
+      state.activeCell = getNextCellToDelete(state.rows, {
+        ...state.activeCell,
+      });
+      if (state.activeCell === undefined) state.activeCell = emptyActiveCell();
+      const rowInd = GetRowIndexById(state.rows, state.activeCell.rowId);
+      if (rowInd < state.displayStart || rowInd > state.displayEnd)
+        state.activeCell.activate = true;
+    },
     saveGame(state, action) {
       action.success = true;
     },
@@ -180,6 +258,7 @@ export const puzzleGameSlice = createSlice({
       for (let i in initialState) state[i] = initialState[i];
     },
     rewrite(state, action) {
+      state.rows = removeEmptyRows(state.rows);
       const rows = state.rows;
       const newValues = [];
       for (let rowInd = 0; rowInd < rows.length; rowInd++) {
@@ -200,11 +279,21 @@ export const puzzleGameSlice = createSlice({
       removeCell(state.rows, action.payload[1]);
       state.activeCell = emptyActiveCell();
       state.topRow = calculateTopRow(state.rows, state.displayStart);
+      if (getNextCellToDelete(state.rows) === undefined)
+        action.asyncDispatch(puzzleGameSlice.actions.rewrite());
     },
     changeScroll(state, action) {
-      const { scrollTop, scrolltHeight } = action.payload;
+      const { scrollTop, scrollHeight, clientHeight } = action.payload;
+      state.scroll.height = scrollHeight;
+      state.scroll.top = scrollTop;
+      state.scroll.clientHeight = clientHeight;
+      console.log({ ...state.scroll });
+
       const displayStart = Math.round(
-        (scrollTop / scrolltHeight) * state.rows.length - 0.25
+        (scrollTop / scrollHeight) * state.rows.length - 0.25
+      );
+      state.displayEnd = Math.round(
+        ((scrollTop + clientHeight) / scrollHeight) * state.rows.length - 0.25
       );
       if (displayStart !== state.displayStart) {
         state.displayStart = displayStart;
@@ -230,6 +319,8 @@ export const {
   newGame,
   saveGame,
   loadGame,
+  findNextCellToDelete,
+  cellActivated,
 } = puzzleGameSlice.actions;
 
 export default puzzleGameSlice.reducer;

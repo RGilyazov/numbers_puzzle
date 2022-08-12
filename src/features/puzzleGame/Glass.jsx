@@ -15,7 +15,8 @@ export default function Glass(props) {
     const onScroll = () => {
       const payload = {
         scrollTop: glassRef.current.scrollTop,
-        scrolltHeight: glassRef.current.scrollHeight,
+        scrollHeight: glassRef.current.scrollHeight,
+        clientHeight: glassRef.current.clientHeight,
       };
       dispatch(changeScroll(payload));
     };

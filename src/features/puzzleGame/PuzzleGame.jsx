@@ -2,7 +2,6 @@ import React from "react";
 import Glass from "./Glass";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
-import Menu from "../about/Menu";
 import Layout from "../about/Layout";
 
 export default function PuzzleGame() {

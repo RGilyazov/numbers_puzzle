@@ -17,6 +17,7 @@ import {
   newGame,
   saveGame,
   loadGame,
+  findNextCellToDelete,
   selectStateToSave,
 } from "../puzzleGame/puzzleGameSlice.js";
 
@@ -27,7 +28,7 @@ function Navbar() {
 
   const [anchorEl, open] = useState(null);
   const handleClick = (event) => {
-    if (location.pathname != "/numbers_puzzle/") {
+    if (location.pathname !== "/numbers_puzzle/") {
       navigate("/numbers_puzzle/");
     } else open(event.currentTarget);
   };
@@ -76,6 +77,13 @@ function Navbar() {
             open={Boolean(anchorEl)}
             onClose={handleMenuClick}
           >
+            <MenuItem
+              onClick={() => {
+                handleMenuClick(findNextCellToDelete());
+              }}
+            >
+              help
+            </MenuItem>
             <MenuItem
               onClick={() => {
                 handleMenuClick(rewrite());

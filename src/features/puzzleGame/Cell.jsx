@@ -2,15 +2,17 @@ import React from "react";
 import { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 
-import { clickCell } from "./puzzleGameSlice.js";
+import { clickCell, cellActivated } from "./puzzleGameSlice.js";
 import { isMobile } from "react-device-detect";
 
 export default function Cell(props) {
-  const { value, color, active, last, deleted } = props.cell;
+  const { value, color, active, last, deleted, activate } = props.cell;
 
   const dispatch = useDispatch();
 
   const ref = useRef();
+
+  const executeScroll = () => ref.current.scrollIntoView();
 
   useEffect(() => {
     function handleClick(event) {
@@ -22,6 +24,13 @@ export default function Cell(props) {
       element.removeEventListener("click", handleClick);
     };
   }, [props.cell, dispatch]);
+
+  useEffect(() => {
+    if (active && activate) {
+      dispatch(cellActivated());
+      executeScroll();
+    }
+  }, [active, activate, dispatch]);
 
   const textSize = isMobile ? "text-cell" : "text-2xl";
   const cellSize = isMobile ? "w-[10vmin] h-[10vmin]" : "w-10 h-10";
