@@ -32,9 +32,11 @@ export default function Cell(props) {
     : deleted
     ? "animate-shake-cell-2s"
     : "";
-  const borderColor = active
-    ? "border-2 border-red-400"
-    : "border-2 border-black";
+  const borderAndShadow = active
+    ? "border-2 border-red-400 shadow-lg"
+    : value
+    ? "border-2 border-black shadow-lg"
+    : "";
   return (
     <div
       className={`${cellSize} ${firstAnimation}
@@ -42,12 +44,12 @@ export default function Cell(props) {
     >
       <div
         ref={ref}
-        className={`${textSize} ${secondAnimation} ${borderColor}
-                     shadow-lg touch-manipulation select-none box-border rounded-20p 
+        className={`${textSize} ${secondAnimation} ${borderAndShadow}
+                     touch-manipulation select-none box-border rounded-20p 
                      flex justify-center items-center text-center h-full w-full`}
         style={{ backgroundColor: color }}
       >
-        {value}
+        {value ? value : ""}
         {last ? "." : ""}
       </div>
     </div>
