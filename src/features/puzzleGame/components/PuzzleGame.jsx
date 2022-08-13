@@ -8,10 +8,11 @@ import {
   changeScroll,
   selectActiveCell,
   selectLastCell,
+  selectPuzzleGame,
 } from "../puzzleGameSlice.js";
 
 export default function PuzzleGame() {
-  const state = useSelector((state) => state.puzzleGame);
+  const state = useSelector(selectPuzzleGame);
   const activeCell = useSelector(selectActiveCell);
   const lastCell = useSelector(selectLastCell);
 
