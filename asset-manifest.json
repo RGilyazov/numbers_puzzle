@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/numbers_puzzle/static/css/main.b674b3ed.css",
-    "main.js": "/numbers_puzzle/static/js/main.34a4a2ed.js",
+    "main.css": "/numbers_puzzle/static/css/main.f26fa9e6.css",
+    "main.js": "/numbers_puzzle/static/js/main.8275ff45.js",
     "index.html": "/numbers_puzzle/index.html",
-    "main.b674b3ed.css.map": "/numbers_puzzle/static/css/main.b674b3ed.css.map",
-    "main.34a4a2ed.js.map": "/numbers_puzzle/static/js/main.34a4a2ed.js.map"
+    "main.f26fa9e6.css.map": "/numbers_puzzle/static/css/main.f26fa9e6.css.map",
+    "main.8275ff45.js.map": "/numbers_puzzle/static/js/main.8275ff45.js.map"
   },
   "entrypoints": [
-    "static/css/main.b674b3ed.css",
-    "static/js/main.34a4a2ed.js"
+    "static/css/main.f26fa9e6.css",
+    "static/js/main.8275ff45.js"
   ]
 }
