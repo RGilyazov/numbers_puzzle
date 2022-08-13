@@ -10,7 +10,7 @@ const initialState = {
   activeCell: utils.emptyActiveCell(),
   lastCell: utils.getLastCell(inintialRows),
   topRow: utils.calculateTopRow(inintialRows, 0),
-  scroll: { top: 0, height: 0, clientHeigh: 0 },
+  scroll: { top: 0, height: 0, clientHeight: 0 },
 };
 
 export const selectPuzzleGame = (state) => state.puzzleGame;

@@ -1,7 +1,6 @@
 import { React, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Glass from "./Glass";
-import Layout from "../../../common/Layout";
 import {
   clickCell,
   cellActivated,
@@ -41,21 +40,16 @@ export default function PuzzleGame() {
   });
   const { rows, topRow } = state;
   return (
-    <Layout
-      children={[
-        <Glass
-          key="1"
-          rows={rows}
-          activeCell={activeCell}
-          lastCell={lastCell}
-          topRow={topRow}
-          eventHandlers={{
-            onCellClick: handleCellClick,
-            onCellActivate: handleCellActivate,
-            onChangeScroll: handleChangeScroll,
-          }}
-        />,
-      ]}
-    ></Layout>
+    <Glass
+      rows={rows}
+      activeCell={activeCell}
+      lastCell={lastCell}
+      topRow={topRow}
+      eventHandlers={{
+        onCellClick: handleCellClick,
+        onCellActivate: handleCellActivate,
+        onChangeScroll: handleChangeScroll,
+      }}
+    />
   );
 }

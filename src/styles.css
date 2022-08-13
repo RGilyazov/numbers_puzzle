@@ -3,9 +3,9 @@
 @tailwind components;
 @tailwind utilities;
 
-.items-centers {
+/* .items-centers {
   align-items: center;
-}
-.h-full {
+} */
+/*.h-full {
   width: 100%;
-}
+}*/
