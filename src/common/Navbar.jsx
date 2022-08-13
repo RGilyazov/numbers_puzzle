@@ -1,6 +1,7 @@
 import { React, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
+import { isMobile } from "react-device-detect";
 
 import {
   AppBar,
@@ -42,80 +43,95 @@ function Navbar() {
   return (
     <AppBar position="static">
       <CssBaseline />
-      <Toolbar>
-        <Button
-          variant="contained"
-          aria-controls="simple-menu"
-          aria-haspopup="true"
-          onClick={handleClick}
-        >
-          Game
-        </Button>
+      <Toolbar variant="regular">
         <Box
           component="div"
-          m={1}
           display="flex"
-          justifyContent="flex-end"
+          justifyContent="center"
           alignItems="center"
           sx={{ flexGrow: 1 }}
         >
-          <Button
-            variant="contained"
-            onClick={() => navigate("/numbers_puzzle/rules")}
+          <Box
+            component="div"
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            sx={{ width: isMobile ? "100%" : "22.5rem" }}
           >
-            Rules
-          </Button>
-          <Button
-            variant="contained"
-            onClick={() => navigate("/numbers_puzzle/about")}
-          >
-            about
-          </Button>
-          <Menu
-            id="Game Menu"
-            anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={handleMenuClick}
-          >
-            <MenuItem
-              onClick={() => {
-                handleMenuClick(findNextCellToDelete());
-              }}
+            <Button
+              variant="contained"
+              aria-controls="simple-menu"
+              aria-haspopup="true"
+              onClick={handleClick}
             >
-              Help me!
-            </MenuItem>
-            <MenuItem
-              onClick={() => {
-                handleMenuClick(rewrite());
-              }}
+              Game
+            </Button>
+            <Box
+              component="div"
+              display="flex"
+              justifyContent="flex-end"
+              alignItems="center"
+              sx={{ flexGrow: 1 }}
             >
-              Rewrite
-            </MenuItem>
-            <Divider />
+              <Button
+                variant="contained"
+                onClick={() => navigate("/numbers_puzzle/rules")}
+              >
+                Rules
+              </Button>
+              <Button
+                variant="contained"
+                onClick={() => navigate("/numbers_puzzle/about")}
+              >
+                about
+              </Button>
+              <Menu
+                id="Game Menu"
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleMenuClick}
+              >
+                <MenuItem
+                  onClick={() => {
+                    handleMenuClick(findNextCellToDelete());
+                  }}
+                >
+                  Help me!
+                </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    handleMenuClick(rewrite());
+                  }}
+                >
+                  Rewrite
+                </MenuItem>
+                <Divider />
 
-            <MenuItem
-              onClick={() => {
-                handleMenuClick(saveGame(state));
-              }}
-            >
-              Save game
-            </MenuItem>
-            <MenuItem
-              onClick={() => {
-                handleMenuClick(loadGame());
-              }}
-            >
-              Load game
-            </MenuItem>
-            <MenuItem
-              onClick={() => {
-                handleMenuClick(newGame());
-              }}
-            >
-              New game
-            </MenuItem>
-          </Menu>
+                <MenuItem
+                  onClick={() => {
+                    handleMenuClick(saveGame(state));
+                  }}
+                >
+                  Save game
+                </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    handleMenuClick(loadGame());
+                  }}
+                >
+                  Load game
+                </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    handleMenuClick(newGame());
+                  }}
+                >
+                  New game
+                </MenuItem>
+              </Menu>
+            </Box>
+          </Box>
         </Box>
       </Toolbar>
     </AppBar>

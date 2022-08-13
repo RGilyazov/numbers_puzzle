@@ -16,7 +16,12 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 const theme = createTheme({
   typography: {
     fontFamily: ["Arial", "sans-serif"].join(","),
-    fontSize: isMobile ? 40 : 14,
+    button: {
+      fontSize: isMobile ? "5vmin" : "1rem",
+    },
+    body1: {
+      fontSize: isMobile ? "5vmin" : "1rem",
+    },
   },
   palette: {
     primary: { main: "#FFFFFF" },

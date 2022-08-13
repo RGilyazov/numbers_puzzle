@@ -49,6 +49,7 @@ export const puzzleGameSlice = createSlice({
     },
     loadGame(state, action) {
       Object.assign(state, action.payload);
+      state.topRow = utils.calculateTopRow(state.rows, state.displayStart);
       action.success = true;
     },
     newGame(state, action) {
