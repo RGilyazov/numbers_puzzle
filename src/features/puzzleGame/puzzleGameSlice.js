@@ -236,7 +236,7 @@ export const puzzleGameSlice = createSlice({
   initialState: initialState,
   reducers: {
     cellActivated(state, action) {
-      state.activeCell.activated = false;
+      state.activeCell.activate = false;
     },
     findNextCellToDelete(state, action) {
       state.activeCell = getNextCellToDelete(state.rows, {
@@ -287,8 +287,6 @@ export const puzzleGameSlice = createSlice({
       state.scroll.height = scrollHeight;
       state.scroll.top = scrollTop;
       state.scroll.clientHeight = clientHeight;
-      console.log({ ...state.scroll });
-
       const displayStart = Math.round(
         (scrollTop / scrollHeight) * state.rows.length - 0.25
       );
