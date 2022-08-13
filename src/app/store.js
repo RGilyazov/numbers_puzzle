@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import PuzzleGameReducer from "../features/puzzleGame/puzzleGameSlice";
-import { asyncDispatchMiddleware } from "./asyncDispatchMiddleware";
-import { saveDataMiddleware } from "./saveDataMiddleware";
+import { asyncDispatchMiddleware } from "./middleware/asyncDispatchMiddleware";
+import { saveDataMiddleware } from "./middleware/saveDataMiddleware";
 
 export default configureStore({
   reducer: {

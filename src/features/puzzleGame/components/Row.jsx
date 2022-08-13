@@ -1,7 +1,7 @@
 import React from "react";
 import Cell from "./Cell";
 import { useSelector } from "react-redux";
-import { selectActiveCell, selectLastCell } from "./puzzleGameSlice.js";
+import { selectActiveCell, selectLastCell } from "../puzzleGameSlice.js";
 
 export default function Row(props) {
   const activeCell = useSelector(selectActiveCell);
@@ -15,7 +15,7 @@ export default function Row(props) {
     cellData.last =
       (lastCell.index === index) & (lastCell.rowId === cellData.rowId);
     cellData.activate = (activeCell.activate === true) & cellData.active;
-    return <Cell key={index} cell={cellData} />;
+    return <Cell key={index} cell={cellData} onClick={props.onCellClick} />;
   });
   return <div className="flex"> {cells} </div>;
 }

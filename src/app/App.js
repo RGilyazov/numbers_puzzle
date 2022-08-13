@@ -6,9 +6,9 @@ import { isMobile } from "react-device-detect";
 import "../styles.css";
 import "react-toastify/dist/ReactToastify.css";
 
-import PuzzleGame from "../features/puzzleGame/PuzzleGame";
+import PuzzleGame from "../features/puzzleGame/components/PuzzleGame";
 import About from "../features/about/About";
-import Rules from "../features/about/Rules";
+import Rules from "../features/rules/Rules";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 

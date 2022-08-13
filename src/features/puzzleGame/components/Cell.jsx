@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 
-import { clickCell, cellActivated } from "./puzzleGameSlice.js";
+import { clickCell, cellActivated } from "../puzzleGameSlice.js";
 import { isMobile } from "react-device-detect";
 
 export default function Cell(props) {
@@ -16,6 +16,7 @@ export default function Cell(props) {
 
   useEffect(() => {
     function handleClick(event) {
+      //props.onClick(props.cell);
       dispatch(clickCell(props.cell));
     }
     const element = ref.current;

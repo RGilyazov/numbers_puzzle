@@ -3,7 +3,7 @@ import Row from "./Row";
 import { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 
-import { changeScroll } from "./puzzleGameSlice.js";
+import { changeScroll } from "../puzzleGameSlice.js";
 
 export default function Glass(props) {
   const topRow = props.topRow;
