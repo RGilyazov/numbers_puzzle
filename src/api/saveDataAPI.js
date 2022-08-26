@@ -19,7 +19,7 @@ export async function loadDataAPI(name) {
   let Value = {};
   try {
     const saved = localStorage.getItem(name);
-    Value = JSON.parse(saved);
+    Value = await JSON.parse(saved);
     await timeout(3000);
   } catch (e) {
     return { error: e };
