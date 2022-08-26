@@ -12,7 +12,7 @@ export async function saveDataAPI(name, data) {
   } catch (e) {
     return { error: e };
   }
-  return { succes: true };
+  return { success: true };
 }
 
 export async function loadDataAPI(name) {

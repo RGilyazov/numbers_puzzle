@@ -20,11 +20,11 @@ export default function Rules() {
       </p>
       <p>
         &nbsp;&nbsp;&nbsp;&nbsp;When there are no blocks to remove all remaining
-        blocks are rewrited one by one to the end of the field.
+        blocks are rewritten one by one to the end of the field.
       </p>
       <figure className="flex flex-col items-center w-full">
         <p>
-          <img src="images/RulsesImage.png" alt="" />
+          <img src="images/RulesImage.png" alt="" />
         </p>
         <figcaption className="text-center text-lg">
           fig.1 neighboring blocks

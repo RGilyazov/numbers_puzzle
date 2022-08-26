@@ -2,14 +2,14 @@ import { createSlice } from "@reduxjs/toolkit";
 import * as utils from "./puzzleGameUtils";
 //import { act } from "react-dom/test-utils";
 
-const inintialRows = utils.getInitialRows();
+const initialRows = utils.getInitialRows();
 const initialState = {
-  rows: inintialRows,
+  rows: initialRows,
   displayStart: 0,
   displayEnd: 0,
-  activeCell: utils.emptyActiveCell(),
-  lastCell: utils.getLastCell(inintialRows),
-  topRow: utils.calculateTopRow(inintialRows, 0),
+  activeCell: utils.emptyCell(),
+  lastCell: utils.getLastCell(initialRows),
+  topRow: utils.calculateTopRow(initialRows, 0),
   scroll: { top: 0, height: 0, clientHeight: 0 },
 };
 
@@ -39,7 +39,7 @@ export const puzzleGameSlice = createSlice({
         ...state.activeCell,
       });
       if (state.activeCell === undefined)
-        state.activeCell = utils.emptyActiveCell();
+        state.activeCell = utils.emptyCell();
       const rowInd = utils.getRowIndexById(state.rows, state.activeCell.rowId);
       if (rowInd < state.displayStart || rowInd > state.displayEnd)
         state.activeCell.activate = true;
@@ -70,12 +70,12 @@ export const puzzleGameSlice = createSlice({
     },
     activateCell(state, action) {
       if (!action.payload.deleted) state.activeCell = action.payload;
-      else state.activeCell = utils.emptyActiveCell();
+      else state.activeCell = utils.emptyCell();
     },
     removeCells(state, action) {
       utils.removeCell(state.rows, action.payload[0]);
       utils.removeCell(state.rows, action.payload[1]);
-      state.activeCell = utils.emptyActiveCell();
+      state.activeCell = utils.emptyCell();
       state.topRow = utils.calculateTopRow(state.rows, state.displayStart);
       if (utils.getNextCellToDelete(state.rows) === undefined)
         action.asyncDispatch(puzzleGameSlice.actions.rewrite());
