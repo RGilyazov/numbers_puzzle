@@ -24,7 +24,7 @@ export default function Rules() {
       </p>
       <figure className="flex flex-col items-center w-full">
         <p>
-          <img src="images/RulsesImage.png" />
+          <img src="images/RulsesImage.png" alt="" />
         </p>
         <figcaption className="text-center text-lg">
           fig.1 neighboring blocks
