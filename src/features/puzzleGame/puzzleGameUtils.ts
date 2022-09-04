@@ -86,9 +86,13 @@ export function emptyCell(): CellData {
  * @param rows - game rows array
  * @returns - index and id of last last cell in game rows array.
  */
-export function getLastCell(rows: RowData[]): { index: number; rowId: number } {
+export function getLastCell(rows: RowData[]): CellData {
   const row = rows[rows.length - 1];
-  return { index: row.cells.length - 1, rowId: row.id };
+  return {
+    ...row.cells[rows.length - 1],
+    index: row.cells.length - 1,
+    rowId: row.id,
+  };
 }
 
 /**
@@ -161,11 +165,11 @@ function canRemoveValues(value1: number, value2: number) {
  */
 export function canRemoveCells(
   rows: RowData[],
-  cell1: CellData,
-  cell2: CellData
+  cell1?: CellData,
+  cell2?: CellData
 ) {
   //if value is undefined it is not a real cell (could be empty active cell for example)
-  if (cell1.value === undefined || cell2.value === undefined) return false;
+  if (cell1?.value === undefined || cell2?.value === undefined) return false;
 
   //already deleted cells could not be deleted again
   if (cell1.deleted || cell2.deleted) return false;

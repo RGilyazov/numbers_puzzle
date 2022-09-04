@@ -21,7 +21,7 @@ import {
   loadGame,
   findNextCellToDelete,
   selectStateToSave,
-} from "../features/puzzleGame/puzzleGameSlice.js";
+} from "../features/puzzleGame/puzzleGameSlice";
 
 function Navbar() {
   const state = useSelector(selectStateToSave);

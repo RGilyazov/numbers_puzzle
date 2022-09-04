@@ -8,7 +8,7 @@ import {
   selectActiveCell,
   selectLastCell,
   selectPuzzleGame,
-} from "../puzzleGameSlice.js";
+} from "../puzzleGameSlice";
 import { CellData } from "../puzzleGameUtils";
 
 export default function PuzzleGame() {

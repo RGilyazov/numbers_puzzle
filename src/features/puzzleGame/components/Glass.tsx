@@ -10,7 +10,7 @@ export type ScrollInfo = {
 type GlassProps = {
   rows: RowData[];
   topRow?: RowData;
-  activeCell?: CellData & { activate: boolean };
+  activeCell?: CellData & { activate?: boolean };
   lastCell?: CellData;
   eventHandlers?: {
     onCellClick?: (Cell: CellVisual) => void;

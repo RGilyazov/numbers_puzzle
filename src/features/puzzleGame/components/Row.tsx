@@ -5,7 +5,7 @@ import { CellData } from "../puzzleGameUtils";
 export type RowProps = {
   id: number;
   cells: CellData[];
-  activeCell?: CellData & { activate: boolean };
+  activeCell?: CellData & { activate?: boolean };
   lastCell?: CellData;
   eventHandlers?: {
     onCellClick?: (Cell: CellVisual) => void;
