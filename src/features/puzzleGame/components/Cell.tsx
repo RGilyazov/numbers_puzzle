@@ -1,26 +1,40 @@
-import React from "react";
 import { useEffect, useRef } from "react";
 import { isMobile } from "react-device-detect";
+import { CellData } from "../puzzleGameUtils";
 
-export default function Cell(props) {
+export type CellVisual = CellData & {
+  active: boolean;
+  last: boolean;
+  activate: boolean;
+};
+
+type CellProps = {
+  cell: CellVisual;
+  onClick?: (Cell: CellVisual) => void;
+  onActivate?: (Cell: CellVisual) => void;
+};
+
+export default function Cell(props: CellProps) {
   const { cell, onClick, onActivate } = props;
   const { value, color, active, last, deleted, activate } = cell;
 
-  const ref = useRef();
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const element = ref.current;
-    const handleClick = () => onClick(cell);
-    element.addEventListener("click", handleClick);
-    return () => {
-      element.removeEventListener("click", handleClick);
-    };
+    if (ref && ref.current) {
+      const element = ref.current;
+      const handleClick = () => onClick?.(cell);
+      element.addEventListener("click", handleClick);
+      return () => {
+        element.removeEventListener("click", handleClick);
+      };
+    }
   }, [cell, onClick]);
 
   useEffect(() => {
     if (active && activate) {
-      onActivate(cell);
-      ref.current.scrollIntoView();
+      onActivate?.(cell);
+      if (ref && ref.current) ref.current.scrollIntoView();
     }
   }, [cell, active, activate, onActivate]);
 

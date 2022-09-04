@@ -14,14 +14,14 @@ const COLORS = [
   "rgba(230, 200,200, 1)",
 ];
 
-export type Cell = {
+export type CellData = {
   value: number;
   color: string;
   deleted: boolean;
   rowId: number;
   index: number;
 };
-export type Row = { id: number; cells: Cell[] };
+export type RowData = { id: number; cells: CellData[] };
 
 let lastRowId = 0; //incremental row id
 
@@ -30,7 +30,7 @@ let lastRowId = 0; //incremental row id
  * @param cells cells to be added to the row
  * @returns new row
  */
-function createRow(cells: Cell[] = []): Row {
+function createRow(cells: CellData[] = []): RowData {
   lastRowId += 1;
   return { id: lastRowId, cells: cells };
 }
@@ -42,7 +42,7 @@ function createRow(cells: Cell[] = []): Row {
  * @param index
  * @returns Cell
  */
-function getNewCell(value: number, rowId: number, index: number): Cell {
+function getNewCell(value: number, rowId: number, index: number): CellData {
   return {
     value: value,
     color: COLORS[value - 1],
@@ -61,8 +61,8 @@ export function getInitialRows() {
     1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 1, 1, 2, 1, 3, 1, 4, 1, 5, 1, 6, 1, 7, 1, 8,
     1, 9,
   ];
-  const rows: Row[] = [];
-  let cells: Cell[] = [];
+  const rows: RowData[] = [];
+  let cells: CellData[] = [];
   for (let ind = 0; ind < initialNums.length; ind++) {
     cells.push(getNewCell(initialNums[ind], lastRowId + 1, cells.length)); //stop using lastRowId after convert to ts
     if (cells.length === NUM_COLS || ind === initialNums.length - 1) {
@@ -76,7 +76,7 @@ export function getInitialRows() {
 /**
  * returns empty cell which are not part of game rows.
  */
-export function emptyCell(): Cell {
+export function emptyCell(): CellData {
   return { index: -1, rowId: -1, value: 0, color: "", deleted: false };
 }
 
@@ -86,7 +86,7 @@ export function emptyCell(): Cell {
  * @param rows - game rows array
  * @returns - index and id of last last cell in game rows array.
  */
-export function getLastCell(rows: Row[]): { index: number; rowId: number } {
+export function getLastCell(rows: RowData[]): { index: number; rowId: number } {
   const row = rows[rows.length - 1];
   return { index: row.cells.length - 1, rowId: row.id };
 }
@@ -103,7 +103,7 @@ export function getLastCell(rows: Row[]): { index: number; rowId: number } {
  * but every cell of the row is calculated independently.
  */
 
-export function calculateTopRow(rows: Row[], displayStart: number) {
+export function calculateTopRow(rows: RowData[], displayStart: number) {
   const row = createRow();
   row.id = -100;
   for (let i = 0; i < NUM_COLS; i++) {
@@ -130,7 +130,7 @@ export function calculateTopRow(rows: Row[], displayStart: number) {
  * @param id - row id
  * @returns - row index
  */
-export function getRowIndexById(rows: Row[], id: number) {
+export function getRowIndexById(rows: RowData[], id: number) {
   for (let i = 0; i < rows.length; i++) {
     if (rows[i].id === id) return i;
   }
@@ -159,8 +159,12 @@ function canRemoveValues(value1: number, value2: number) {
  * @param cell2 - cell to be removed
  * @returns - returns true if cells can be removed according to game rules
  */
-export function canRemoveCells(rows: Row[], cell1: Cell, cell2: Cell) {
-  //if value is undefined it is not a real cell (could be empty acitve cell for example)
+export function canRemoveCells(
+  rows: RowData[],
+  cell1: CellData,
+  cell2: CellData
+) {
+  //if value is undefined it is not a real cell (could be empty active cell for example)
   if (cell1.value === undefined || cell2.value === undefined) return false;
 
   //already deleted cells could not be deleted again
@@ -223,7 +227,7 @@ export function canRemoveCells(rows: Row[], cell1: Cell, cell2: Cell) {
  * @param rows game rows array
  * @param cell cell to remove
  */
-export function removeCell(rows: Row[], cell: Cell) {
+export function removeCell(rows: RowData[], cell: CellData) {
   const rowInd = getRowIndexById(rows, cell.rowId);
   if (rowInd !== undefined) rows[rowInd].cells[cell.index].deleted = true;
   else throw new Error(`Not found row to remove cell ${cell.rowId}`);
@@ -236,9 +240,9 @@ export function removeCell(rows: Row[], cell: Cell) {
  * @returns all cell data stored in row object or empty cell if cell not found
  */
 export function getCell(
-  rows: Row[],
+  rows: RowData[],
   cell: { rowId: number; index: number }
-): Cell | undefined {
+): CellData | undefined {
   const rowInd = getRowIndexById(rows, cell.rowId);
   if (rowInd === undefined) return emptyCell();
   return {
@@ -254,7 +258,7 @@ export function getCell(
  * @param rows game rows array
  * @param value value if the cell
  */
-export function addCell(rows: Row[], value: number) {
+export function addCell(rows: RowData[], value: number) {
   let row = rows[rows.length - 1];
   let cells = rows[rows.length - 1].cells;
   if (row.cells.length === NUM_COLS) {
@@ -274,7 +278,7 @@ export function addCell(rows: Row[], value: number) {
  * @returns returns indexes of next cell or [] if there is no next cell
  */
 function getNextCell(
-  rows: Row[],
+  rows: RowData[],
   cell_row: number | undefined = undefined,
   cell_col: number | undefined = undefined
 ): [number, number] | [] {
@@ -293,7 +297,7 @@ function getNextCell(
  * @returns true of cell can be deleted, false otherwise
  */
 function canRemoveCell(
-  rows: Row[],
+  rows: RowData[],
   cell_row: number,
   cell_col: number
 ): boolean {
@@ -349,9 +353,9 @@ function canRemoveCell(
  * @returns next cell which can be deleted or 'undefined' if there is no such cells
  */
 export function getNextCellToDelete(
-  rows: Row[],
+  rows: RowData[],
   StartingCell?: { index: number; rowId: number }
-): Cell | undefined {
+): CellData | undefined {
   if (StartingCell === undefined) StartingCell = emptyCell();
   let [i, j] = getNextCell(
     rows,
@@ -373,10 +377,15 @@ export function getNextCellToDelete(
  * @param row - row to check is it empty or not
  * @returns - true if row contains only empty cells, false otherwise
  */
-function rowIsEmpty(row: Row): boolean {
+function rowIsEmpty(row: RowData): boolean {
   return row.cells.filter((cell) => !cell.deleted).length === 0;
 }
 
-export function removeEmptyRows(rows: Row[]) {
+export function removeEmptyRows(rows: RowData[]) {
   return rows.filter((row) => !rowIsEmpty(row));
 }
+
+export const _puzzleGameUtilsExportedForTesting = {
+  getNewCell,
+  emptyCell,
+};
