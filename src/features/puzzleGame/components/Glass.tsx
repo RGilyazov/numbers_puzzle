@@ -2,7 +2,11 @@ import Row from "./Row";
 import { useEffect, useRef } from "react";
 import { CellData, RowData } from "../puzzleGameUtils";
 import { CellVisual } from "./Cell";
-
+export type ScrollInfo = {
+  scrollTop: number;
+  scrollHeight: number;
+  clientHeight: number;
+};
 type GlassProps = {
   rows: RowData[];
   topRow?: RowData;
@@ -11,11 +15,7 @@ type GlassProps = {
   eventHandlers?: {
     onCellClick?: (Cell: CellVisual) => void;
     onCellActivate?: (Cell: CellVisual) => void;
-    onChangeScroll?: (payload: {
-      scrollTop: number;
-      scrollHeight: number;
-      clientHeight: number;
-    }) => void;
+    onChangeScroll?: (payload: ScrollInfo) => void;
   };
   dataTestId?: string;
 };

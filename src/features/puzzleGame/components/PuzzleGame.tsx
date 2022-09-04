@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import Glass from "./Glass";
+import Glass, { ScrollInfo } from "./Glass";
 import {
   clickCell,
   cellActivated,
@@ -9,6 +9,7 @@ import {
   selectLastCell,
   selectPuzzleGame,
 } from "../puzzleGameSlice.js";
+import { CellData } from "../puzzleGameUtils";
 
 export default function PuzzleGame() {
   const state = useSelector(selectPuzzleGame);
@@ -17,18 +18,18 @@ export default function PuzzleGame() {
 
   const dispatch = useDispatch();
 
-  const handleCellClick = (cell) => {
+  const handleCellClick = (cell: CellData) => {
     dispatch(clickCell(cell));
   };
-  const handleCellActivate = (cell) => {
-    dispatch(cellActivated());
+  const handleCellActivate = (cell: CellData) => {
+    dispatch(cellActivated({}));
   };
-  const handleChangeScroll = (scrollInfo) => {
+  const handleChangeScroll = (scrollInfo: ScrollInfo) => {
     dispatch(changeScroll(scrollInfo));
   };
 
   useEffect(() => {
-    const onUnload = (e) => {
+    const onUnload = (e: any) => {
       e.preventDefault();
       e.returnValue = "game progress will be lost";
       return e.returnValue;

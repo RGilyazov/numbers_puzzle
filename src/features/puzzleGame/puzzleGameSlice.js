@@ -38,8 +38,7 @@ export const puzzleGameSlice = createSlice({
       state.activeCell = utils.getNextCellToDelete(state.rows, {
         ...state.activeCell,
       });
-      if (state.activeCell === undefined)
-        state.activeCell = utils.emptyCell();
+      if (state.activeCell === undefined) state.activeCell = utils.emptyCell();
       const rowInd = utils.getRowIndexById(state.rows, state.activeCell.rowId);
       if (rowInd < state.displayStart || rowInd > state.displayEnd)
         state.activeCell.activate = true;
@@ -120,3 +119,7 @@ export const {
 } = puzzleGameSlice.actions;
 
 export default puzzleGameSlice.reducer;
+
+export const _puzzleGameSliceExportedForTesting = {
+  initialState,
+};
