@@ -388,4 +388,5 @@ export function removeEmptyRows(rows: RowData[]) {
 export const _puzzleGameUtilsExportedForTesting = {
   getNewCell,
   emptyCell,
+  createRow,
 };
