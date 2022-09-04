@@ -2,11 +2,9 @@ import React from "react";
 import { isMobile } from "react-device-detect";
 
 export default function Rules() {
+  const maxWidth: string = isMobile ? "100%" : "30rem";
   return (
-    <div
-      className="m-4 p-4 text-justify"
-      style={{ "max-width": isMobile ? "100%" : "30rem" }}
-    >
+    <div className="m-4 p-4 text-justify" style={{ maxWidth: maxWidth }}>
       <p>
         &nbsp;&nbsp;&nbsp;&nbsp;The goal of the game is to remove all blocks
         from the field.{" "}
